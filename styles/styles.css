@@ -1,0 +1,121 @@
+/* 全体的なスタイル */
+body {
+    font-family: Arial, sans-serif;
+    background-color: #f4f4f4;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
+}
+
+/* ヘッダーのスタイル */
+.header {
+    background-color: #87ceeb;
+    color: white;
+    padding: 20px 0;
+    text-align: center;
+    width: 100%;
+}
+
+/* Aboutセクション */
+.about {
+    padding: 50px !important; /* 内側の余白 */
+    text-align: center !important;
+    position: absolute !important;
+    top: 150px !important; /* 上部からの位置 */
+    left: 50% !important; /* 中央寄せ */
+    transform: translateX(-50%) !important; /* 水平中央 */
+    width: 580px !important; /* 横幅 */
+    height: 150px !important; /* 縦幅 */
+    border: 2px solid #ccc !important; /* 枠線 */
+    border-radius: 8px !important; /* 角の丸み */
+    background-color: white !important; /* 背景色 */
+}
+
+/* Aboutのh2サイズを調整 */
+.about h2 {
+    font-size: 35px;
+}
+
+.about p {
+    font-size: 20px;
+    color: #333;
+    word-wrap: break-word; /* テキストが長すぎた場合に折り返し */
+}
+
+/* ソーシャルリンクを下に配置 */
+.social-links {
+    margin-top: 300px; /* 位置を少し下に調整 */
+    text-align: center;
+    display: flex;
+    justify-content: center;
+    gap: 30px; /* 項目間の間隔 */
+}
+
+/* 共通の枠線 */
+.box {
+    border: 2px solid #ccc;
+    padding: 20px; /* 枠内の間隔を統一 */
+    border-radius: 8px;
+    background-color: white;
+    text-align: center;
+    width: 300px; /* 横幅を統一 */
+    height: 150px; /* 高さを統一 */
+    display: flex; /* コンテンツの中央揃え */
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+/* 各リンクのスタイル */
+.box a {
+    text-decoration: none;
+    color: #0073e6;
+    font-size: 20px;
+    display: inline-flex;
+    align-items: center;
+}
+
+.box a:hover {
+    text-decoration: underline;
+}
+
+.box img {
+    width: 40px;
+    height: 40px;
+    vertical-align: middle;
+    margin-bottom: 8px;
+}
+
+/* つーるぼっくすボタン */
+.toolbox-button {
+    background-color: #28a745;
+    color: white;
+    padding: 10px 20px;
+    border-radius: 5px;
+    margin-top: 10px;
+    text-decoration: none;
+    display: inline-flex;
+    align-items: center;
+}
+
+.toolbox-button:hover {
+    background-color: #218838;
+}
+
+.toolbox-button img {
+    width: 20px;
+    height: 20px;
+    margin-right: 8px;
+}
+
+/* フッター */
+footer {
+    background-color: #333;
+    color: white;
+    text-align: center;
+    padding: 10px 0;
+    width: 100%;
+    margin-top: auto;
+}

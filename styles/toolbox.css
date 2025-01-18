@@ -1,0 +1,135 @@
+/* 全体のスタイル */
+body {
+  font-family: Arial, sans-serif;
+  background-color: #f4f4f4;
+  margin: 0;
+  padding: 0;
+  text-align: center;
+}
+
+/* ヘッダーのスタイル */
+header {
+  background-color: #4CAF50;
+  color: white;
+  padding: 20px 0;
+  font-size: 24px;
+}
+
+/* メインコンテンツ */
+main {
+  padding: 30px;
+}
+
+/* ツールの選択ボタン */
+.tool-selection {
+  margin-bottom: 20px;
+}
+
+button {
+  padding: 10px 20px;
+  margin: 10px;
+  font-size: 16px;
+  cursor: pointer;
+  border: none;
+  border-radius: 5px;
+  background-color: #4CAF50;
+  color: white;
+  transition: background-color 0.3s ease;
+}
+
+button:hover {
+  background-color: #45a049;
+}
+
+/* ツールエリア */
+.tool {
+  display: none;
+  margin-top: 20px;
+}
+
+.tool.active {
+  display: block;
+}
+
+/* 日付計算ツール */
+#dateCalculator {
+  background-color: #e7f9e7;
+  padding: 20px;
+  border-radius: 10px;
+}
+
+#dateCalculator input[type="date"] {
+  padding: 10px;
+  font-size: 16px;
+}
+
+#dateCalculator button {
+  background-color: #45a049;
+}
+
+/* 文字化け変換ツール */
+#textConverter {
+  background-color: #e7f9e7;
+  padding: 20px;
+  border-radius: 10px;
+}
+
+#textConverter textarea {
+  width: 90%;
+  padding: 10px;
+  font-size: 16px;
+  margin-bottom: 10px;
+}
+
+#textConverter select {
+  padding: 10px;
+  font-size: 16px;
+  margin: 10px;
+}
+
+#textConverter button {
+  background-color: #45a049;
+}
+
+/* 50音暗号変換ツール */
+#cipherTool {
+  background-color: #e7f9e7;
+  padding: 20px;
+  border-radius: 10px;
+}
+
+#cipherTool input[type="text"] {
+  padding: 10px;
+  font-size: 16px;
+  margin-bottom: 10px;
+  width: 80%;
+}
+
+#cipherTool button {
+  background-color: #45a049;
+}
+
+/* 結果エリア */
+.result {
+  font-weight: bold;
+  font-size: 18px;
+  margin-top: 20px;
+  color: #333;
+}
+
+/* メインページボタン */
+#mainPageBtn {
+  background-color: #4CAF50;
+  padding: 10px 20px;
+  font-size: 16px;
+  margin-top: 30px;
+  color: white;
+  cursor: pointer;
+  border: none;
+  border-radius: 5px;
+  transition: background-color 0.3s ease;
+}
+
+#mainPageBtn:hover {
+  background-color: #45a049;
+}
