@@ -36,9 +36,12 @@ function convertCipher() {
   // 数字のみの場合（暗号と仮定して復号）
   if (/^\d+$/.test(inputText)) {
     console.log("復号処理を開始");
-    for (let i = 0; i < inputText.length; i += 2) {
-      const code = inputText.slice(i, i + 2); // 2桁ずつ取得
+    let i = 0;
+    while (i < inputText.length) {
+      // ひらがな一文字に対応するコードは3桁
+      const code = inputText.slice(i, i + 3); // 3桁ずつ取得
       result += reverseCipherTable[code] || code; // テーブルから復号、無ければそのまま
+      i += 3; // 3文字分進む
     }
   } 
   // ひらがなの場合（平文と仮定して暗号化）
