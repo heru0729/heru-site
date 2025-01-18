@@ -5,6 +5,9 @@ let reverseCipherTable = {};
 async function loadCipherTable() {
   try {
     const response = await fetch("cipher.json");
+    if (!response.ok) {
+      throw new Error("cipher.json ファイルの読み込みに失敗しました");
+    }
     cipherTable = await response.json();
     reverseCipherTable = Object.fromEntries(
       Object.entries(cipherTable).map(([key, value]) => [value, key])
@@ -13,6 +16,7 @@ async function loadCipherTable() {
     console.log("逆暗号テーブルを作成しました:", reverseCipherTable);
   } catch (error) {
     console.error("暗号テーブルの読み込み中にエラーが発生しました:", error);
+    alert("暗号テーブルの読み込みに失敗しました。");
   }
 }
 
@@ -44,7 +48,7 @@ function convertCipher() {
       result += cipherTable[char] || char; // テーブルから暗号化、無ければそのまま
     }
   } 
-  // その他の入力はエラー扱い
+  // その他の入力（ひらがなまたは数字以外）
   else {
     result = "入力形式が不正です。ひらがなまたは数字のみを入力してください。";
   }
@@ -89,6 +93,7 @@ function convertText() {
     const converted = decoder.decode(bytes);
     document.getElementById("textResult").textContent = converted;
   } catch (error) {
+    console.error("文字化け変換中にエラーが発生しました:", error);
     document.getElementById("textResult").textContent = "変換中にエラーが発生しました。";
   }
 }
