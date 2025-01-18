@@ -28,33 +28,25 @@ function convertCipher() {
   // デバッグ用ログ
   console.log("入力:", inputText);
 
-  // 数字、アルファベットのみの場合（暗号として復号）
-  if (/^[0-9A-Z]+$/.test(inputText)) {
-    console.log("復号処理を開始");
-    let i = 0;
-    while (i < inputText.length) {
-      let pair;
-
-      // 次の3文字が「数字2桁+アルファベット1文字」の場合
-      if (i + 2 < inputText.length && /^[0-9]{2}[A-Z]$/.test(inputText.slice(i, i + 3))) {
-        pair = inputText.slice(i, i + 3); // 3桁を取得
-        i += 3;
-      }
-      // 次の2文字が数字の場合
-      else if (i + 1 < inputText.length && /^[0-9]{2}$/.test(inputText.slice(i, i + 2))) {
-        pair = inputText.slice(i, i + 2); // 2桁を取得
-        i += 2;
-      }
-      // どれにも該当しない場合はそのまま出力
-      else {
-        pair = inputText[i];
-        i += 1;
-      }
-
-      // テーブルから復号し、無ければそのまま
-      result += reverseCipherTable[pair] || pair;
+// 修正後: 暗号復号ロジック
+if (/^[\dA-Z]+$/.test(inputText)) { // 数字+アルファベットの場合
+  console.log("復号処理を開始");
+  let i = 0;
+  while (i < inputText.length) {
+    let code;
+    if (i + 2 < inputText.length && /^[A-Z]$/.test(inputText[i + 2])) {
+      // 3桁（2桁+アルファベット）
+      code = inputText.slice(i, i + 3);
+      i += 3;
+    } else {
+      // 2桁（数字のみ）
+      code = inputText.slice(i, i + 2);
+      i += 2;
     }
+    result += reverseCipherTable[code] || code; // 復号またはそのまま
   }
+}
+
   // ひらがなまたはアルファベットの場合（平文として暗号化）
   else if (/^[\u3040-\u309F]+$/.test(inputText)) {
     console.log("暗号化処理を開始");
