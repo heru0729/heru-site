@@ -5,9 +5,6 @@ let reverseCipherTable = {};
 async function loadCipherTable() {
   try {
     const response = await fetch("cipher.json");
-    if (!response.ok) {
-      throw new Error("cipher.json ファイルの読み込みに失敗しました");
-    }
     cipherTable = await response.json();
     reverseCipherTable = Object.fromEntries(
       Object.entries(cipherTable).map(([key, value]) => [value, key])
@@ -16,7 +13,6 @@ async function loadCipherTable() {
     console.log("逆暗号テーブルを作成しました:", reverseCipherTable);
   } catch (error) {
     console.error("暗号テーブルの読み込み中にエラーが発生しました:", error);
-    alert("暗号テーブルの読み込みに失敗しました。");
   }
 }
 
@@ -33,15 +29,20 @@ function convertCipher() {
   // デバッグ用ログ
   console.log("入力:", inputText);
 
-  // 数字のみの場合（暗号と仮定して復号）
-  if (/^\d+$/.test(inputText)) {
-    console.log("復号処理を開始");
-    let i = 0;
-    while (i < inputText.length) {
-      // ひらがな一文字に対応するコードは3桁
+  // 数字+アルファベット（3桁）を処理
+  if (/^\d+[A-Za-z]+$/.test(inputText)) {
+    console.log("3桁暗号処理を開始");
+    for (let i = 0; i < inputText.length; i += 3) {
       const code = inputText.slice(i, i + 3); // 3桁ずつ取得
       result += reverseCipherTable[code] || code; // テーブルから復号、無ければそのまま
-      i += 3; // 3文字分進む
+    }
+  } 
+  // 数字のみの場合（2桁）
+  else if (/^\d+$/.test(inputText)) {
+    console.log("2桁復号処理を開始");
+    for (let i = 0; i < inputText.length; i += 2) {
+      const code = inputText.slice(i, i + 2); // 2桁ずつ取得
+      result += reverseCipherTable[code] || code; // テーブルから復号、無ければそのまま
     }
   } 
   // ひらがなの場合（平文と仮定して暗号化）
@@ -51,7 +52,7 @@ function convertCipher() {
       result += cipherTable[char] || char; // テーブルから暗号化、無ければそのまま
     }
   } 
-  // その他の入力（ひらがなまたは数字以外）
+  // その他の入力はエラー扱い
   else {
     result = "入力形式が不正です。ひらがなまたは数字のみを入力してください。";
   }
@@ -96,7 +97,6 @@ function convertText() {
     const converted = decoder.decode(bytes);
     document.getElementById("textResult").textContent = converted;
   } catch (error) {
-    console.error("文字化け変換中にエラーが発生しました:", error);
     document.getElementById("textResult").textContent = "変換中にエラーが発生しました。";
   }
 }
