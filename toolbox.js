@@ -45,16 +45,27 @@ function convertCipher() {
       result += reverseCipherTable[code] || code; // テーブルから復号、無ければそのまま
     }
   } 
-  // ひらがなの場合（平文と仮定して暗号化）
-  else if (/^[\u3040-\u309F]+$/.test(inputText)) {
-    console.log("暗号化処理を開始");
-    for (let char of inputText) {
-      result += cipherTable[char] || char; // テーブルから暗号化、無ければそのまま
+  // ひらがな、数字、アルファベット（ひらがな、数字、アルファベットが含まれる場合）
+  else if (/^[\u3040-\u309F0-9A-Za-z]+$/.test(inputText)) {
+    console.log("暗号化/復号処理を開始");
+
+    // ひらがなを暗号化
+    if (/^[\u3040-\u309F]+$/.test(inputText)) {
+      for (let char of inputText) {
+        result += cipherTable[char] || char; // テーブルから暗号化、無ければそのまま
+      }
+    }
+    // 数字の場合は復号
+    else {
+      for (let i = 0; i < inputText.length; i++) {
+        const code = inputText[i];
+        result += reverseCipherTable[code] || code; // テーブルから復号、無ければそのまま
+      }
     }
   } 
   // その他の入力はエラー扱い
   else {
-    result = "入力形式が不正です。ひらがなまたは数字のみを入力してください。";
+    result = "入力形式が不正です。ひらがな、数字、アルファベットのみを入力してください。";
   }
 
   // 結果の出力
@@ -119,7 +130,5 @@ function showTool(toolId) {
 
 // メインページに戻る
 function goToMainPage() {
-  document.querySelectorAll(".tool").forEach((tool) => {
-    tool.style.display = "none";
-  });
+  window.location.href = 'index.html'; // メインページのURLを指定
 }
