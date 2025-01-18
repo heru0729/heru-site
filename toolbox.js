@@ -21,7 +21,6 @@ window.onload = () => {
   loadCipherTable();
 };
 
-// 暗号変換/復号
 function convertCipher() {
   const inputText = document.getElementById("cipherInput").value.trim();
   let result = '';
@@ -29,40 +28,40 @@ function convertCipher() {
   // デバッグ用ログ
   console.log("入力:", inputText);
 
-  // 数字+アルファベット（3桁）を処理
-  if (/^\d+[A-Za-z]+$/.test(inputText)) {
-    console.log("3桁暗号処理を開始");
-    for (let i = 0; i < inputText.length; i += 3) {
-      const code = inputText.slice(i, i + 3); // 3桁ずつ取得
-      result += reverseCipherTable[code] || code; // テーブルから復号、無ければそのまま
-    }
-  } 
-  // 数字のみの場合（2桁）
-  else if (/^\d+$/.test(inputText)) {
-    console.log("2桁復号処理を開始");
-    for (let i = 0; i < inputText.length; i += 2) {
-      const code = inputText.slice(i, i + 2); // 2桁ずつ取得
-      result += reverseCipherTable[code] || code; // テーブルから復号、無ければそのまま
-    }
-  } 
-  // ひらがな、数字、アルファベット（ひらがな、数字、アルファベットが含まれる場合）
-  else if (/^[\u3040-\u309F0-9A-Za-z]+$/.test(inputText)) {
-    console.log("暗号化/復号処理を開始");
+  // 数字、アルファベットのみの場合（暗号として復号）
+  if (/^[0-9A-Z]+$/.test(inputText)) {
+    console.log("復号処理を開始");
+    let i = 0;
+    while (i < inputText.length) {
+      let pair;
 
-    // ひらがなを暗号化
-    if (/^[\u3040-\u309F]+$/.test(inputText)) {
-      for (let char of inputText) {
-        result += cipherTable[char] || char; // テーブルから暗号化、無ければそのまま
+      // 次の3文字が「数字2桁+アルファベット1文字」の場合
+      if (i + 2 < inputText.length && /^[0-9]{2}[A-Z]$/.test(inputText.slice(i, i + 3))) {
+        pair = inputText.slice(i, i + 3); // 3桁を取得
+        i += 3;
       }
-    }
-    // 数字の場合は復号
-    else {
-      for (let i = 0; i < inputText.length; i++) {
-        const code = inputText[i];
-        result += reverseCipherTable[code] || code; // テーブルから復号、無ければそのまま
+      // 次の2文字が数字の場合
+      else if (i + 1 < inputText.length && /^[0-9]{2}$/.test(inputText.slice(i, i + 2))) {
+        pair = inputText.slice(i, i + 2); // 2桁を取得
+        i += 2;
       }
+      // どれにも該当しない場合はそのまま出力
+      else {
+        pair = inputText[i];
+        i += 1;
+      }
+
+      // テーブルから復号し、無ければそのまま
+      result += reverseCipherTable[pair] || pair;
     }
-  } 
+  }
+  // ひらがなまたはアルファベットの場合（平文として暗号化）
+  else if (/^[\u3040-\u309F]+$/.test(inputText)) {
+    console.log("暗号化処理を開始");
+    for (let char of inputText) {
+      result += cipherTable[char] || char; // テーブルから暗号化、無ければそのまま
+    }
+  }
   // その他の入力はエラー扱い
   else {
     result = "入力形式が不正です。ひらがな、数字、アルファベットのみを入力してください。";
