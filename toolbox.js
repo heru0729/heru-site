@@ -130,5 +130,5 @@ function showTool(toolId) {
 
 // メインページに戻る
 function goToMainPage() {
-  window.location.href = 'heru.f5.si'; // メインページのURLを指定
+  window.location.href = 'index.html'; // メインページのURLを指定
 }
