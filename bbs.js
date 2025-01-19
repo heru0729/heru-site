@@ -1,46 +1,53 @@
-// スレッドの投稿処理
-document.getElementById('postForm').addEventListener('submit', function(e) {
-    e.preventDefault();
+let threads = [];
+let comments = [];
 
-    const threadName = document.getElementById('threadName').value;
-    const threadContent = document.getElementById('threadContent').value;
+function postThread() {
+    const title = document.getElementById('threadTitle').value;
+    const content = document.getElementById('threadContent').value;
 
-    if (threadName && threadContent) {
-        const threadContainer = document.querySelector('.thread-container');
-        const threadItem = document.createElement('div');
-        threadItem.classList.add('thread-item');
-        threadItem.innerHTML = `
-            <div class="thread-name">${threadName}</div>
-            <div class="thread-content">${threadContent}</div>
-            <div class="thread-date">${new Date().toLocaleString()}</div>
-            <section class="response-form">
-                <h3>レスを投稿</h3>
-                <textarea placeholder="レスの内容"></textarea>
-                <button onclick="postResponse(event, this)">レスする</button>
-            </section>
-            <div class="responses"></div>
-        `;
-        threadContainer.appendChild(threadItem);
-
-        // フォームをリセット
-        document.getElementById('threadName').value = '';
+    if (title && content) {
+        const thread = { title, content, id: Date.now() };
+        threads.push(thread);
+        displayThreads();
+        document.getElementById('threadTitle').value = '';
         document.getElementById('threadContent').value = '';
     }
-});
+}
 
-// レスポンスの投稿処理
-function postResponse(event, button) {
-    const responseContent = button.previousElementSibling.value;
-    const responsesContainer = button.closest('.thread-item').querySelector('.responses');
+function postComment() {
+    const commentContent = document.getElementById('commentContent').value;
 
-    if (responseContent) {
-        const responseItem = document.createElement('div');
-        responseItem.classList.add('response-item');
-        responseItem.innerHTML = `
-            <div class="response-name">名無しさん</div>
-            <div class="response-content">${responseContent}</div>
-        `;
-        responsesContainer.appendChild(responseItem);
-        button.previousElementSibling.value = ''; // 入力フィールドをクリア
+    if (commentContent) {
+        const comment = { content: commentContent, id: Date.now() };
+        comments.push(comment);
+        displayComments();
+        document.getElementById('commentContent').value = '';
     }
+}
+
+function displayThreads() {
+    const threadList = document.getElementById('threadList');
+    threadList.innerHTML = '';
+
+    threads.forEach(thread => {
+        const threadElement = document.createElement('div');
+        threadElement.classList.add('thread');
+        threadElement.innerHTML = `
+            <h3>${thread.title}</h3>
+            <p>${thread.content}</p>
+        `;
+        threadList.appendChild(threadElement);
+    });
+}
+
+function displayComments() {
+    const commentList = document.getElementById('commentList');
+    commentList.innerHTML = '';
+
+    comments.forEach(comment => {
+        const commentElement = document.createElement('div');
+        commentElement.classList.add('comment');
+        commentElement.innerHTML = `<p>${comment.content}</p>`;
+        commentList.appendChild(commentElement);
+    });
 }
