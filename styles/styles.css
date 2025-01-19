@@ -20,17 +20,17 @@ body {
 
 /* Aboutセクション */
 .about {
-    padding: 50px !important; /* 内側の余白 */
+    padding: 50px !important;
     text-align: center !important;
     position: absolute !important;
-    top: 150px !important; /* 上部からの位置 */
-    left: 50% !important; /* 中央寄せ */
-    transform: translateX(-50%) !important; /* 水平中央 */
-    width: 580px !important; /* 横幅 */
-    height: 150px !important; /* 縦幅 */
-    border: 2px solid #ccc !important; /* 枠線 */
-    border-radius: 8px !important; /* 角の丸み */
-    background-color: white !important; /* 背景色 */
+    top: 150px !important;
+    left: 50% !important;
+    transform: translateX(-50%) !important;
+    width: 580px !important;
+    height: 150px !important;
+    border: 2px solid #ccc !important;
+    border-radius: 8px !important;
+    background-color: white !important;
 }
 
 /* Aboutのh2サイズを調整 */
@@ -41,28 +41,27 @@ body {
 .about p {
     font-size: 20px;
     color: #333;
-    word-wrap: break-word; /* テキストが長すぎた場合に折り返し */
+    word-wrap: break-word;
 }
 
 /* ソーシャルリンクを下に配置 */
 .social-links {
-    margin-top: 300px; /* 位置を少し下に調整 */
+    margin-top: 300px;
     text-align: center;
     display: flex;
     justify-content: center;
-    gap: 30px; /* 項目間の間隔 */
+    gap: 30px;
 }
 
-/* 共通の枠線 */
 .box {
     border: 2px solid #ccc;
-    padding: 20px; /* 枠内の間隔を統一 */
+    padding: 20px;
     border-radius: 8px;
     background-color: white;
     text-align: center;
-    width: 300px; /* 横幅を統一 */
-    height: 150px; /* 高さを統一 */
-    display: flex; /* コンテンツの中央揃え */
+    width: 300px;
+    height: 150px;
+    display: flex;
     flex-direction: column;
     justify-content: center;
     align-items: center;
@@ -118,4 +117,25 @@ footer {
     padding: 10px 0;
     width: 100%;
     margin-top: auto;
+}
+
+/* スマホ対応 */
+@media (max-width: 768px) {
+    .about {
+        width: 100% !important;
+        height: auto !important;
+        top: 50px !important;
+        transform: translateX(0) !important;
+    }
+
+    .social-links {
+        flex-direction: column;
+        gap: 15px;
+    }
+
+    .box {
+        width: 80% !important;
+        height: auto;
+        margin: 10px auto;
+    }
 }
