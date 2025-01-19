@@ -1,44 +1,87 @@
 <!DOCTYPE html>
 <html lang="ja">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>掲示板</title>
-    <link rel="stylesheet" href="styles/bbs.css">
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>掲示板</title>
+<link rel="stylesheet" href="styles/styles.css">
 </head>
 <body>
-    <header>
-        <h1>掲示板</h1>
-    </header>
+<header>
+  <h1>掲示板</h1>
+</header>
 
-    <main>
-        <section id="threads">
-            <h2>スレッド一覧</h2>
-            <!-- スレッド投稿フォーム -->
-            <div class="box">
-                <h3>スレッドを投稿</h3>
-                <input type="text" id="threadTitle" placeholder="スレッドタイトル">
-                <textarea id="threadContent" placeholder="内容を入力"></textarea>
-                <button onclick="postThread()">投稿</button>
-            </div>
+<main>
+  <section>
+    <h2>スレッド一覧</h2>
+    <ul id="thread-list"></ul>
+  </section>
 
-            <div id="threadList">
-                <!-- 投稿されたスレッドが表示されます -->
-            </div>
-        </section>
+  <section>
+    <h2>スレッド作成</h2>
+    <form id="create-thread-form">
+      <input type="text" id="thread-title" placeholder="タイトルを入力">
+      <button type="submit">スレッド作成</button>
+    </form>
+  </section>
 
-        <section id="comments">
-            <h2>レス投稿</h2>
-            <input type="text" id="commentContent" placeholder="コメントを入力">
-            <button onclick="postComment()">レス投稿</button>
-            <div id="commentList"></div>
-        </section>
-    </main>
+  <section>
+    <h2>書き込み</h2>
+    <form id="post-form">
+      <textarea id="post-content" placeholder="書き込み内容を入力"></textarea>
+      <button type="submit">書き込む</button>
+    </form>
+  </section>
+</main>
 
-    <footer>
-        <p>Copyright &copy; 2025</p>
-    </footer>
+<script>
+  // スレッドの表示
+  async function fetchThreads() {
+    const res = await fetch('/api/threads');
+    const threads = await res.json();
+    const threadList = document.getElementById('thread-list');
+    threadList.innerHTML = '';
+    threads.forEach(thread => {
+      const li = document.createElement('li');
+      li.textContent = thread.title;
+      const link = document.createElement('a');
+      link.href = `#`;
+      link.textContent = '閲覧';
+      li.appendChild(link);
+      threadList.appendChild(li);
+    });
+  }
 
-    <script src="bbs.js"></script>
+  // スレッド作成
+  document.getElementById('create-thread-form').addEventListener('submit', async (event) => {
+    event.preventDefault();
+    const title = document.getElementById('thread-title').value;
+    await fetch('/api/threads', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify({ title })
+    });
+    fetchThreads();
+  });
+
+  // 書き込み
+  document.getElementById('post-form').addEventListener('submit', async (event) => {
+    event.preventDefault();
+    const content = document.getElementById('post-content').value;
+    const threadId = 123; // これは仮のIDなので、実際のスレッドIDに変更する
+    await fetch(`/api/threads/${threadId}/posts`, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify({ content })
+    });
+    fetchThreads();
+  });
+
+  fetchThreads();
+</script>
 </body>
 </html>
