@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>掲示板 - Heruのさいと</title>
+    <link rel="stylesheet" href="styles/bbs.css">
+    <script src="bbs.js" defer></script>
+</head>
+<body>
+<header class="header">
+    <h1>掲示板</h1>
+</header>
+
+<main>
+    <section class="thread-form">
+        <h2>スレッドを投稿</h2>
+        <form id="postForm">
+            <label for="threadName">スレッド名</label>
+            <input type="text" id="threadName" placeholder="スレッド名を入力" required>
+            <label for="threadContent">内容</label>
+            <textarea id="threadContent" placeholder="内容を入力" required></textarea>
+            <button type="submit">スレッドを投稿</button>
+        </form>
+    </section>
+
+    <section class="thread-container">
+        <!-- ここにスレッドが表示されます -->
+    </section>
+</main>
+
+<footer>
+    <p>Copyright &copy; 2025</p>
+</footer>
+</body>
+</html>
