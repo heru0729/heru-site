@@ -22,32 +22,35 @@ body {
     border: 2px solid #ccc;
     border-radius: 8px;
     width: 80%;
-    max-width: 600px;
+    max-width: 700px;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
 }
 
 .post-form input,
 .post-form textarea {
     width: 100%;
-    padding: 10px;
+    padding: 12px;
     margin: 10px 0;
     border-radius: 5px;
     border: 1px solid #ccc;
+    font-size: 16px;
 }
 
 .post-form button {
     background-color: #28a745;
     color: white;
-    padding: 10px 20px;
+    padding: 12px 20px;
     border-radius: 5px;
     border: none;
     cursor: pointer;
+    font-size: 16px;
 }
 
 .post-form button:hover {
     background-color: #218838;
 }
 
-/* 投稿一覧のスタイル */
+/* スレッド一覧のスタイル */
 .posts {
     padding: 20px;
     margin: 20px auto;
@@ -55,12 +58,15 @@ body {
     border: 2px solid #ccc;
     border-radius: 8px;
     width: 80%;
-    max-width: 600px;
+    max-width: 700px;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
 }
 
 .posts h2 {
     text-align: center;
     font-size: 24px;
+    margin-bottom: 20px;
+    color: #333;
 }
 
 #postList {
@@ -70,20 +76,116 @@ body {
 
 .post-item {
     padding: 15px;
-    margin-bottom: 10px;
-    border-bottom: 1px solid #ccc;
-    background-color: #f9f9f9;
+    margin-bottom: 20px;
+    border-bottom: 2px solid #eee;
+    background-color: #fafafa;
+    border-radius: 8px;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.05);
 }
 
 .post-item p {
     margin: 5px 0;
+    font-size: 16px;
+    color: #555;
 }
 
 .post-item .name {
     font-weight: bold;
     color: #0073e6;
+    font-size: 18px;
 }
 
+/* レスポンスフォームのスタイル */
+.response-form {
+    margin-top: 20px;
+    padding: 15px;
+    background-color: #f9f9f9;
+    border: 2px solid #ddd;
+    border-radius: 8px;
+    width: 90%;
+    max-width: 650px;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.05);
+}
+
+.response-form textarea {
+    width: 100%;
+    padding: 12px;
+    border-radius: 5px;
+    border: 1px solid #ccc;
+    font-size: 16px;
+}
+
+.response-form button {
+    background-color: #0073e6;
+    color: white;
+    padding: 12px 20px;
+    border-radius: 5px;
+    border: none;
+    cursor: pointer;
+    font-size: 16px;
+    margin-top: 10px;
+}
+
+.response-form button:hover {
+    background-color: #005bb5;
+}
+
+/* 投稿とレスポンスをまとめたレイアウト */
+.thread-container {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}
+
+/* スレッド投稿者とレスポンスの区別 */
+.thread-item {
+    padding: 20px;
+    background-color: #f0f8ff;
+    border: 1px solid #ccc;
+    border-radius: 8px;
+    margin-bottom: 15px;
+}
+
+.thread-item .thread-name {
+    font-weight: bold;
+    color: #0073e6;
+    font-size: 18px;
+    margin-bottom: 10px;
+}
+
+.thread-item .thread-content {
+    font-size: 16px;
+    margin: 10px 0;
+    color: #333;
+}
+
+.thread-item .thread-date {
+    font-size: 14px;
+    color: #888;
+}
+
+/* レスポンス表示 */
+.response-item {
+    padding: 10px 15px;
+    background-color: #e6f7ff;
+    border: 1px solid #ccc;
+    border-radius: 8px;
+    margin-top: 15px;
+    font-size: 15px;
+}
+
+.response-item .response-name {
+    font-weight: bold;
+    color: #0073e6;
+}
+
+.response-item .response-content {
+    margin: 5px 0;
+    font-size: 16px;
+    color: #555;
+}
+
+/* フッター */
 footer {
     background-color: #333;
     color: white;
