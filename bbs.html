@@ -3,34 +3,42 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>掲示板 - Heruのさいと</title>
+    <title>掲示板</title>
     <link rel="stylesheet" href="styles/bbs.css">
-    <script src="bbs.js" defer></script>
 </head>
 <body>
-<header class="header">
-    <h1>掲示板</h1>
-</header>
+    <header>
+        <h1>掲示板</h1>
+    </header>
 
-<main>
-    <section class="thread-form">
-        <h2>スレッドを投稿</h2>
-        <form id="postForm">
-            <label for="threadName">スレッド名</label>
-            <input type="text" id="threadName" placeholder="スレッド名を入力" required>
-            <label for="threadContent">内容</label>
-            <textarea id="threadContent" placeholder="内容を入力" required></textarea>
-            <button type="submit">スレッドを投稿</button>
-        </form>
-    </section>
+    <main>
+        <section id="threads">
+            <h2>スレッド一覧</h2>
+            <!-- スレッド投稿フォーム -->
+            <div class="box">
+                <h3>スレッドを投稿</h3>
+                <input type="text" id="threadTitle" placeholder="スレッドタイトル">
+                <textarea id="threadContent" placeholder="内容を入力"></textarea>
+                <button onclick="postThread()">投稿</button>
+            </div>
 
-    <section class="thread-container">
-        <!-- ここにスレッドが表示されます -->
-    </section>
-</main>
+            <div id="threadList">
+                <!-- 投稿されたスレッドが表示されます -->
+            </div>
+        </section>
 
-<footer>
-    <p>Copyright &copy; 2025</p>
-</footer>
+        <section id="comments">
+            <h2>レス投稿</h2>
+            <input type="text" id="commentContent" placeholder="コメントを入力">
+            <button onclick="postComment()">レス投稿</button>
+            <div id="commentList"></div>
+        </section>
+    </main>
+
+    <footer>
+        <p>Copyright &copy; 2025</p>
+    </footer>
+
+    <script src="bbs.js"></script>
 </body>
 </html>
