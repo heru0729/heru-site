@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>掲示板</title>
+  <link rel="stylesheet" href="styles/styles.css">
+</head>
+<body>
+
+<header class="header">
+  <h1>掲示板</h1>
+</header>
+
+<main>
+  <section class="post-form">
+    <h2>新しい投稿</h2>
+    <form id="postForm">
+      <input type="text" id="name" placeholder="名前" required><br>
+      <textarea id="message" placeholder="メッセージ" required></textarea><br>
+      <button type="submit">投稿する</button>
+    </form>
+  </section>
+
+  <section class="posts">
+    <h2>投稿一覧</h2>
+    <ul id="postList"></ul>
+  </section>
+</main>
+
+<footer>
+  <p>Copyright &copy; 2025</p>
+</footer>
+
+<script src="script.js"></script>
+</body>
+</html>
