@@ -59,6 +59,7 @@ function copyCipherResult() {
 }
 
 // Base64 エンコード/デコード
+
 function convertBase64(action) {
   const mode = document.getElementById("base64Mode").value;
   const output = document.getElementById("base64Result");
@@ -87,8 +88,12 @@ function convertBase64(action) {
         output.textContent = reader.result;
       };
       reader.readAsDataURL(file);
-    } else {
+    } else if (action === "decode") {
       const base64String = document.getElementById("base64Input").value;
+      if (!base64String.startsWith("data:image/")) {
+        output.textContent = "デコードエラー: 無効なBase64画像形式です";
+        return;
+      }
       const imgElement = document.createElement("img");
       imgElement.src = base64String;
       output.innerHTML = "";
@@ -97,21 +102,20 @@ function convertBase64(action) {
   }
 }
 
-// 結果をコピー
-function copyBase64Result() {
-  const result = document.getElementById("base64Result").textContent;
-  navigator.clipboard.writeText(result).then(() => {
-    alert("結果をコピーしました！");
-  });
-}
+// モード選択に応じたUIの切り替え
+document.getElementById("base64Mode").addEventListener("change", () => {
+  const mode = document.getElementById("base64Mode").value;
+  const textInputSection = document.getElementById("textInputSection");
+  const imageInputSection = document.getElementById("imageInputSection");
 
-// ツール切り替え
-function showTool(toolId) {
-  document.querySelectorAll(".tool").forEach((tool) => {
-    tool.style.display = "none";
-  });
-  document.getElementById(toolId).style.display = "block";
-}
+  if (mode === "text") {
+    textInputSection.style.display = "block";
+    imageInputSection.style.display = "none";
+  } else if (mode === "image") {
+    textInputSection.style.display = "none";
+    imageInputSection.style.display = "block";
+  }
+});
 
 // メインページに戻る
 function goToMainPage() {
