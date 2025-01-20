@@ -21,46 +21,32 @@ window.onload = () => {
   loadCipherTable();
 };
 
+// 暗号化/復号
 function convertCipher() {
   const inputText = document.getElementById("cipherInput").value.trim();
   let result = '';
 
-  // デバッグ用ログ
-  console.log("入力:", inputText);
-
-// 修正後: 暗号復号ロジック
-if (/^[\dA-Z]+$/.test(inputText)) { // 数字+アルファベットの場合
-  console.log("復号処理を開始");
-  let i = 0;
-  while (i < inputText.length) {
-    let code;
-    if (i + 2 < inputText.length && /^[A-Z]$/.test(inputText[i + 2])) {
-      // 3桁（2桁+アルファベット）
-      code = inputText.slice(i, i + 3);
-      i += 3;
-    } else {
-      // 2桁（数字のみ）
-      code = inputText.slice(i, i + 2);
-      i += 2;
+  if (/^[\dA-Z]+$/.test(inputText)) { // 復号処理
+    let i = 0;
+    while (i < inputText.length) {
+      let code;
+      if (i + 2 < inputText.length && /^[A-Z]$/.test(inputText[i + 2])) {
+        code = inputText.slice(i, i + 3);
+        i += 3;
+      } else {
+        code = inputText.slice(i, i + 2);
+        i += 2;
+      }
+      result += reverseCipherTable[code] || code;
     }
-    result += reverseCipherTable[code] || code; // 復号またはそのまま
-  }
-}
-
-  // ひらがなまたはアルファベットの場合（平文として暗号化）
-  else if (/^[\u3040-\u309F]+$/.test(inputText)) {
-    console.log("暗号化処理を開始");
+  } else if (/^[\u3040-\u309F]+$/.test(inputText)) { // 暗号化処理
     for (let char of inputText) {
-      result += cipherTable[char] || char; // テーブルから暗号化、無ければそのまま
+      result += cipherTable[char] || char;
     }
-  }
-  // その他の入力はエラー扱い
-  else {
+  } else {
     result = "入力形式が不正です。ひらがな、数字、アルファベットのみを入力してください。";
   }
 
-  // 結果の出力
-  console.log("結果:", result);
   document.getElementById("cipherResult").textContent = result;
 }
 
@@ -72,41 +58,49 @@ function copyCipherResult() {
   });
 }
 
-// 日付計算
-function calculateDate() {
-  const startDate = new Date(document.getElementById("startDate").value);
-  const endDate = new Date(document.getElementById("endDate").value);
+// Base64 エンコード/デコード
+function convertBase64(action) {
+  const mode = document.getElementById("base64Mode").value;
+  const output = document.getElementById("base64Result");
 
-  if (isNaN(startDate) || isNaN(endDate)) {
-    document.getElementById("dateResult").textContent = "有効な日付を入力してください。";
-    return;
-  }
+  if (mode === "text") {
+    const text = document.getElementById("base64Input").value;
 
-  const diffTime = Math.abs(endDate - startDate);
-  const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24));
-  document.getElementById("dateResult").textContent = `${diffDays}日`;
-}
-
-// 文字化け変換
-function convertText() {
-  const text = document.getElementById("textInput").value;
-  const encoding = document.getElementById("encodingSelect").value;
-
-  try {
-    const encoder = new TextEncoder();
-    const decoder = new TextDecoder(encoding);
-    const bytes = encoder.encode(text);
-    const converted = decoder.decode(bytes);
-    document.getElementById("textResult").textContent = converted;
-  } catch (error) {
-    document.getElementById("textResult").textContent = "変換中にエラーが発生しました。";
+    if (action === "encode") {
+      output.textContent = btoa(unescape(encodeURIComponent(text)));
+    } else {
+      try {
+        output.textContent = decodeURIComponent(escape(atob(text)));
+      } catch {
+        output.textContent = "デコードエラー: 無効なBase64形式です";
+      }
+    }
+  } else if (mode === "image") {
+    if (action === "encode") {
+      const file = document.getElementById("imageInput").files[0];
+      if (!file) {
+        output.textContent = "画像ファイルを選択してください";
+        return;
+      }
+      const reader = new FileReader();
+      reader.onload = () => {
+        output.textContent = reader.result;
+      };
+      reader.readAsDataURL(file);
+    } else {
+      const base64String = document.getElementById("base64Input").value;
+      const imgElement = document.createElement("img");
+      imgElement.src = base64String;
+      output.innerHTML = "";
+      output.appendChild(imgElement);
+    }
   }
 }
 
 // 結果をコピー
-function copyTextResult() {
-  const textResult = document.getElementById("textResult").textContent;
-  navigator.clipboard.writeText(textResult).then(() => {
+function copyBase64Result() {
+  const result = document.getElementById("base64Result").textContent;
+  navigator.clipboard.writeText(result).then(() => {
     alert("結果をコピーしました！");
   });
 }
@@ -121,5 +115,5 @@ function showTool(toolId) {
 
 // メインページに戻る
 function goToMainPage() {
-  window.location.href = 'index.html'; // メインページのURLを指定
+  window.location.href = 'index.html';
 }
