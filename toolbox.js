@@ -6,12 +6,6 @@ async function loadCipherTable() {
   try {
     const response = await fetch("cipher.json");
     cipherTable = await response.json();
-
-    // 固定の記号と文字を追加
-    cipherTable["ー"] = "D";
-    cipherTable["、"] = "<";
-    cipherTable["。"] = ">";
-
     reverseCipherTable = Object.fromEntries(
       Object.entries(cipherTable).map(([key, value]) => [value, key])
     );
