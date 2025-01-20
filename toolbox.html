@@ -58,22 +58,31 @@
   <div id="cipherResult" class="output"></div>
 </div>
 
-<div id="base64Tool" class="tool" style="display: none;">
+<div id="cipherTool" class="tool">
+  <h2>暗号化・復号化ツール</h2>
+  <textarea id="cipherInput" placeholder="平文または暗号形式を入力"></textarea>
+  <button onclick="convertCipher()">変換</button>
+  <button onclick="copyCipherResult()">結果をコピー</button>
+  <div id="cipherResult" class="output"></div>
+</div>
+
+<div id="base64Tool" class="tool">
   <h2>Base64 エンコード/デコード</h2>
-  <label for="base64Mode">モードを選択:</label>
   <select id="base64Mode">
     <option value="text">テキストモード</option>
     <option value="image">画像モード</option>
   </select>
+
   <div id="textInputSection">
-    <textarea id="base64Input" placeholder="ここにテキストまたはBase64を入力"></textarea>
+    <textarea id="base64Input" placeholder="テキストを入力"></textarea>
   </div>
+
   <div id="imageInputSection" style="display: none;">
-    <input type="file" id="imageInput" accept="image/*">
+    <input type="file" id="imageInput" />
   </div>
+
   <button onclick="convertBase64('encode')">エンコード</button>
   <button onclick="convertBase64('decode')">デコード</button>
-  <button onclick="copyBase64Result()">コピー</button>
   <div id="base64Result" class="output"></div>
 </div>
 
