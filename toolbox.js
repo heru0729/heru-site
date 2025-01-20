@@ -1,10 +1,17 @@
 let cipherTable = {};
 let reverseCipherTable = {};
 
+// 初期化: JSONファイルから暗号テーブルを読み込む
 async function loadCipherTable() {
   try {
     const response = await fetch("cipher.json");
     cipherTable = await response.json();
+
+    // 固定の記号と文字を追加
+    cipherTable["ー"] = "D";
+    cipherTable["、"] = "<";
+    cipherTable["。"] = ">";
+
     reverseCipherTable = Object.fromEntries(
       Object.entries(cipherTable).map(([key, value]) => [value, key])
     );
@@ -16,54 +23,37 @@ async function loadCipherTable() {
   }
 }
 
+// ページ読み込み時に暗号テーブルをロード
 window.onload = () => {
   loadCipherTable();
 };
 
+// 暗号化/復号
 function convertCipher() {
   const inputText = document.getElementById("cipherInput").value.trim();
   let result = "";
 
-  console.log("入力:", inputText);
-
-  if (/^[\dA-Z<>]+$/.test(inputText)) {
-    console.log("復号処理を開始");
+  if (/^[\dA-Z<>]+$/.test(inputText)) { // 復号処理
     let i = 0;
     while (i < inputText.length) {
-      let code = "";
-
-      // 3文字の場合（例: "12A"）
-      if (i + 2 < inputText.length && /^[A-C]$/.test(inputText[i + 2])) {
+      let code;
+      if (i + 2 < inputText.length && /^[A-Z<>]$/.test(inputText[i + 2])) {
         code = inputText.slice(i, i + 3);
         i += 3;
-      }
-      // 2文字の場合（数字のみ、例: "12"）
-      else if (i + 1 < inputText.length && /^[0-9]{2}$/.test(inputText.slice(i, i + 2))) {
+      } else {
         code = inputText.slice(i, i + 2);
         i += 2;
       }
-      // 1文字の場合（例: "D", "<", ">"）
-      else {
-        code = inputText[i];
-        i++;
-      }
-
       result += reverseCipherTable[code] || code;
     }
-  }
-  // 入力が平文の場合
-  else if (/^[\u3040-\u309Fー。、]+$/.test(inputText)) {
-    console.log("暗号化処理を開始");
+  } else if (/^[\u3040-\u309Fー。、]+$/.test(inputText)) { // 暗号化処理
     for (let char of inputText) {
       result += cipherTable[char] || char;
     }
-  }
-  // 入力が無効な場合
-  else {
-    result = "入力形式が不正です。平文または暗号形式を入力してください。";
+  } else {
+    result = "入力形式が不正です。ひらがな、ー、。、または暗号形式を入力してください。";
   }
 
-  console.log("結果:", result);
   document.getElementById("cipherResult").textContent = result;
 }
 
@@ -76,7 +66,6 @@ function copyCipherResult() {
 }
 
 // Base64 エンコード/デコード
-
 function convertBase64(action) {
   const mode = document.getElementById("base64Mode").value;
   const output = document.getElementById("base64Result");
