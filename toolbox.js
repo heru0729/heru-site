@@ -9,9 +9,7 @@ async function loadCipherTable() {
     reverseCipherTable = Object.fromEntries(
       Object.entries(cipherTable).map(([key, value]) => [value, key])
     );
-
     console.log("暗号テーブルを読み込みました:", cipherTable);
-    console.log("逆暗号テーブルを作成しました:", reverseCipherTable);
   } catch (error) {
     console.error("暗号テーブルの読み込み中にエラーが発生しました:", error);
   }
@@ -22,24 +20,53 @@ window.onload = () => {
   loadCipherTable();
 };
 
+// ツールの切り替え
+function showTool(toolId) {
+  document.querySelectorAll(".tool").forEach(tool => {
+    tool.style.display = "none";
+  });
+  document.getElementById(toolId).style.display = "block";
+}
+
+// 日付計算
+function calculateDate() {
+  const startDate = new Date(document.getElementById("startDate").value);
+  const endDate = new Date(document.getElementById("endDate").value);
+
+  if (isNaN(startDate) || isNaN(endDate)) {
+    document.getElementById("dateResult").textContent = "無効な日付です。";
+    return;
+  }
+
+  const diff = Math.abs(endDate - startDate);
+  const days = diff / (1000 * 60 * 60 * 24);
+  document.getElementById("dateResult").textContent = `${days}日間`;
+}
+
+// 文字化け変換
+function convertText() {
+  const text = document.getElementById("textInput").value;
+  const encoding = document.getElementById("encodingSelect").value;
+
+  // 簡易なシミュレーション（エンコード処理を模倣）
+  document.getElementById("textResult").textContent = `変換後(${encoding}): ${text}`;
+}
+
+function copyTextResult() {
+  const result = document.getElementById("textResult").textContent;
+  navigator.clipboard.writeText(result).then(() => {
+    alert("結果をコピーしました！");
+  });
+}
+
 // 暗号化/復号
 function convertCipher() {
   const inputText = document.getElementById("cipherInput").value.trim();
   let result = "";
 
   if (/^[\dA-Z<>]+$/.test(inputText)) { // 復号処理
-    let i = 0;
-    while (i < inputText.length) {
-      let code;
-      if (i + 2 < inputText.length && /^[A-Z<>]$/.test(inputText[i + 2])) {
-        code = inputText.slice(i, i + 3);
-        i += 3;
-      } else {
-        code = inputText.slice(i, i + 2);
-        i += 2;
-      }
-      result += reverseCipherTable[code] || code;
-    }
+    const regex = /[A-Z<>]|[\d]{2}/g;
+    result = inputText.match(regex).map(code => reverseCipherTable[code] || code).join('');
   } else if (/^[\u3040-\u309Fー。、]+$/.test(inputText)) { // 暗号化処理
     for (let char of inputText) {
       result += cipherTable[char] || char;
@@ -51,10 +78,9 @@ function convertCipher() {
   document.getElementById("cipherResult").textContent = result;
 }
 
-// 結果をコピー
 function copyCipherResult() {
-  const cipherResult = document.getElementById("cipherResult").textContent;
-  navigator.clipboard.writeText(cipherResult).then(() => {
+  const result = document.getElementById("cipherResult").textContent;
+  navigator.clipboard.writeText(result).then(() => {
     alert("結果をコピーしました！");
   });
 }
@@ -66,58 +92,30 @@ function convertBase64(action) {
 
   if (mode === "text") {
     const text = document.getElementById("base64Input").value;
-
-    if (action === "encode") {
-      output.textContent = btoa(unescape(encodeURIComponent(text)));
-    } else {
-      try {
-        output.textContent = decodeURIComponent(escape(atob(text)));
-      } catch {
-        output.textContent = "デコードエラー: 無効なBase64形式です";
-      }
-    }
-  } else if (mode === "image") {
-    if (action === "encode") {
-      const file = document.getElementById("imageInput").files[0];
-      if (!file) {
-        output.textContent = "画像ファイルを選択してください";
-        return;
-      }
-      const reader = new FileReader();
-      reader.onload = () => {
-        output.textContent = reader.result;
-      };
+    output.textContent = action === "encode"
+      ? btoa(unescape(encodeURIComponent(text)))
+      : decodeURIComponent(escape(atob(text)));
+  } else {
+    const file = document.getElementById("imageInput").files[0];
+    const reader = new FileReader();
+    if (action === "encode" && file) {
+      reader.onload = () => output.textContent = reader.result;
       reader.readAsDataURL(file);
     } else if (action === "decode") {
       const base64String = document.getElementById("base64Input").value;
-      if (!base64String.startsWith("data:image/")) {
-        output.textContent = "デコードエラー: 無効なBase64画像形式です";
-        return;
-      }
-      const imgElement = document.createElement("img");
-      imgElement.src = base64String;
-      output.innerHTML = "";
-      output.appendChild(imgElement);
+      output.innerHTML = `<img src="${base64String}" alt="Decoded Image" />`;
     }
   }
 }
 
-// モード選択に応じたUIの切り替え
+// モード切り替え
 document.getElementById("base64Mode").addEventListener("change", () => {
   const mode = document.getElementById("base64Mode").value;
-  const textInputSection = document.getElementById("textInputSection");
-  const imageInputSection = document.getElementById("imageInputSection");
-
-  if (mode === "text") {
-    textInputSection.style.display = "block";
-    imageInputSection.style.display = "none";
-  } else if (mode === "image") {
-    textInputSection.style.display = "none";
-    imageInputSection.style.display = "block";
-  }
+  document.getElementById("textInputSection").style.display = mode === "text" ? "block" : "none";
+  document.getElementById("imageInputSection").style.display = mode === "image" ? "block" : "none";
 });
 
-// メインページに戻る
+// メインページへの遷移
 function goToMainPage() {
-  window.location.href = 'index.html';
+  window.location.href = "index.html";
 }
