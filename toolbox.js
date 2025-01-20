@@ -51,7 +51,7 @@ function convertCipher() {
       result += cipherTable[char] || char;
     }
   } else {
-    result = "入力形式が不正です。ひらがな、ー、。、または暗号形式を入力してください。";
+    result = "入力形式が不正です。平文または暗号を入力してください。";
   }
 
   document.getElementById("cipherResult").textContent = result;
