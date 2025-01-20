@@ -124,6 +124,16 @@ button:hover {
   margin: 10px auto;
 }
 
+#base64Result {
+  margin-top: 20px;
+  white-space: pre-wrap;
+  word-wrap: break-word;
+  background-color: #f4f4f4;
+  padding: 10px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+}
+
 /* メインページボタン */
 #mainPageBtn {
   background-color: #4CAF50;
