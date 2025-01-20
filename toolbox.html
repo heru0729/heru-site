@@ -50,15 +50,13 @@
       <button onclick="copyTextResult()">結果をコピー</button>
     </div>
 
-    <!-- 暗号ツール -->
-    <div id="cipherTool" class="tool">
-      <h2>暗号ツール</h2>
-      <input type="text" id="cipherInput" placeholder="平文または暗号を入力してください...">
-      <br>
-      <button onclick="convertCipher()">変換</button>
-      <div class="result" id="cipherResult"></div>
-      <button onclick="copyCipherResult()">結果をコピー</button>
-    </div>
+<div id="cipherTool" class="tool">
+  <h2>暗号化・復号化ツール</h2>
+  <textarea id="cipherInput" placeholder="平文または暗号形式を入力"></textarea>
+  <button onclick="convertCipher()">変換</button>
+  <button onclick="copyCipherResult()">結果をコピー</button>
+  <div id="cipherResult" class="output"></div>
+</div>
 
 <div id="base64Tool" class="tool" style="display: none;">
   <h2>Base64 エンコード/デコード</h2>
