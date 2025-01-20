@@ -76,6 +76,7 @@ button:hover {
 
 #textConverter textarea {
   width: 90%;
+  height: 150px; /* 高さを拡大 */
   padding: 10px;
   font-size: 16px;
   margin-bottom: 10px;
@@ -98,23 +99,33 @@ button:hover {
   border-radius: 10px;
 }
 
-#cipherTool input[type="text"] {
+#cipherTool textarea {
+  width: 90%; /* 幅を広げる */
+  height: 200px; /* 高さを大きくする */
   padding: 10px;
   font-size: 16px;
   margin-bottom: 10px;
-  width: 80%;
+  resize: none; /* サイズ変更を禁止する場合はこれを追加 */
 }
 
 #cipherTool button {
   background-color: #45a049;
 }
 
-/* 結果エリア */
-.result {
-  font-weight: bold;
-  font-size: 18px;
-  margin-top: 20px;
-  color: #333;
+/* Base64ツール */
+#base64Tool {
+  background-color: #e7f9e7;
+  padding: 20px;
+  border-radius: 10px;
+}
+
+#base64Tool textarea {
+  width: 90%; /* 幅を広げる */
+  height: 200px; /* 高さを大きくする */
+  padding: 10px;
+  font-size: 16px;
+  margin-bottom: 10px;
+  resize: none; /* サイズ変更を禁止する場合はこれを追加 */
 }
 
 #base64Tool img {
@@ -132,6 +143,14 @@ button:hover {
   padding: 10px;
   border: 1px solid #ccc;
   border-radius: 5px;
+}
+
+/* 結果エリア */
+.result {
+  font-weight: bold;
+  font-size: 18px;
+  margin-top: 20px;
+  color: #333;
 }
 
 /* メインページボタン */
